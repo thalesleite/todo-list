@@ -8,6 +8,39 @@
   <body>
     <header><h1>To Do List</h1></header>
     <main>
+      <section class="form">
+        <form action="#" id="formProject">
+          <div>
+            <label for="title">Title: </label>
+            <input type="text" id="title" />
+          </div>
+
+          <div>
+            <label for="description">Description: </label>
+            <textarea id="description" rows="4" cols="20"></textarea>
+          </div>
+
+          <div>
+            <label for="dueDate">Due Date: </label>
+            <input type="date" id="dueDate" />
+          </div>
+
+          <div>
+            <label for="priority">Priority: </label>
+            <select name="priority" id="priority">
+              <option value="0">Urgente</option>
+              <option value="1">Important</option>
+              <option value="2">Low priority</option>
+              <option value="3">Done</option>
+            </select>
+          </div>
+
+          <div>
+            <button type="submit">Add To Do</button>
+          </div>
+        </form>
+      </section>
+
       <div id="content"></div>
     </main>
   </body>
