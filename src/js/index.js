@@ -1,29 +1,15 @@
 import "../css/styles.css"
 
-function createProject(name) {
-  return {
-    name: name,
-    items: [],
-    setName(newName) {
-      this.name = newName
-    },
-    addItem(item) {
-      this.items.push(item)
-    },
-  }
-}
-
-function createTodo(title, description, dueDate, priority) {
-  return {
-    title,
-    description,
-    dueDate,
-    priority,
-  }
-}
+import createProject from "../js/projectFactory"
+import createTodo from "../js//todoFactory"
 
 const formProject = document.getElementById("formProject")
-const projects = []
+const projectsSection = document.querySelector("#projects")
+
+const projects = getProjectsFromLocal()
+console.log("projects: ", projects)
+
+updateProjects()
 
 formProject.addEventListener("submit", (e) => {
   e.preventDefault()
@@ -32,11 +18,91 @@ formProject.addEventListener("submit", (e) => {
   const dueDate = document.getElementById("dueDate").value
   const priority = document.getElementById("priority").value
 
-  const project = createProject("Project Default")
   const todo = createTodo(title, description, dueDate, priority)
-  project.addItem(todo)
 
-  projects.push(project)
+  if (projects.length > 0) {
+    projects[0].addItem(todo)
+  } else {
+    const project = createProject("Project Default")
+    project.addItem(todo)
+    projects.push(project)
+  }
 
-  console.log("project: ", project)
+  localStorage.setItem("projects", JSON.stringify(projects))
+  clear()
+  updateProjects()
 })
+
+function clear() {
+  document.getElementById("title").value = ""
+  document.getElementById("description").value = ""
+  document.getElementById("dueDate").value = null
+  document.getElementById("priority").value = "0"
+}
+
+function getProjectsFromLocal() {
+  let localProjects = localStorage.getItem("projects")
+
+  if (localProjects) {
+    localProjects = JSON.parse(localProjects)
+
+    const projects = []
+    localProjects.forEach((project) => {
+      const newProject = createProject(project.name)
+
+      project.items.forEach(({ title, description, dueDate, priority }) => {
+        const todo = createTodo(title, description, dueDate, priority)
+        newProject.addItem(todo)
+      })
+
+      projects.push(newProject)
+    })
+
+    return projects
+  }
+
+  return []
+}
+
+function updateProjects() {
+  projectsSection.innerHTML = ""
+
+  if (projects.length > 0) {
+    projects.forEach((project, index) => {
+      console.log(project)
+      const div = document.createElement("div")
+      div.classList.add("project")
+
+      const hName = document.createElement("h2")
+      hName.textContent = project.name
+      div.appendChild(hName)
+
+      project.items.forEach((item) => {
+        const divItem = document.createElement("div")
+        divItem.classList.add("item")
+
+        const pTitle = document.createElement("p")
+        pTitle.textContent = `Title: ${item.title}`
+        divItem.appendChild(pTitle)
+
+        const pDescription = document.createElement("p")
+        pDescription.textContent = `Description: ${item.description}`
+        divItem.appendChild(pDescription)
+
+        const pDueDate = document.createElement("p")
+        pDueDate.textContent = `Due Date: ${item.dueDate}`
+        divItem.appendChild(pDueDate)
+
+        const pPriority = document.createElement("p")
+        pPriority.textContent = `Priority: ${item.priority}`
+        divItem.appendChild(pPriority)
+
+        div.appendChild(divItem)
+      })
+
+      projectsSection.appendChild(div)
+    })
+  } else {
+    projectsSection.innerHTML = "No projects in to-do list"
+  }
+}
