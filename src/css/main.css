@@ -1,0 +1,36 @@
+html {
+  font-family: "Roboto", sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+
+  select {
+    font-size: 15px;
+  }
+
+  button {
+    cursor: pointer;
+    margin-top: 15px;
+    background-color: #b3b8ec;
+    border: 2px solid #0519f4;
+    height: 30px;
+    border-radius: 15px;
+    color: #0519f4;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+}

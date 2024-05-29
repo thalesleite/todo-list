@@ -3,8 +3,13 @@ import "../css/styles.css"
 import createProject from "../js/projectFactory"
 import createTodo from "../js//todoFactory"
 
+import { format } from "date-fns"
+
 const formProject = document.getElementById("formProject")
 const projectsSection = document.querySelector("#projects")
+
+const dueDate = document.getElementById("dueDate")
+dueDate.value = format(new Date(), "yyyy-MM-dd")
 
 const projects = getProjectsFromLocal()
 console.log("projects: ", projects)
@@ -13,24 +18,26 @@ updateProjects()
 
 formProject.addEventListener("submit", (e) => {
   e.preventDefault()
+
   const title = document.getElementById("title").value
   const description = document.getElementById("description").value
-  const dueDate = document.getElementById("dueDate").value
   const priority = document.getElementById("priority").value
 
-  const todo = createTodo(title, description, dueDate, priority)
+  if (title && description && dueDate && priority) {
+    const todo = createTodo(title, description, dueDate, priority)
 
-  if (projects.length > 0) {
-    projects[0].addItem(todo)
-  } else {
-    const project = createProject("Project Default")
-    project.addItem(todo)
-    projects.push(project)
+    if (projects.length > 0) {
+      projects[0].addItem(todo)
+    } else {
+      const project = createProject("Project Default")
+      project.addItem(todo)
+      projects.push(project)
+    }
+
+    localStorage.setItem("projects", JSON.stringify(projects))
+    clear()
+    updateProjects()
   }
-
-  localStorage.setItem("projects", JSON.stringify(projects))
-  clear()
-  updateProjects()
 })
 
 function clear() {
@@ -69,13 +76,15 @@ function updateProjects() {
 
   if (projects.length > 0) {
     projects.forEach((project, index) => {
-      console.log(project)
       const div = document.createElement("div")
       div.classList.add("project")
 
       const hName = document.createElement("h2")
       hName.textContent = project.name
       div.appendChild(hName)
+
+      const divItems = document.createElement("div")
+      divItems.classList.add("items")
 
       project.items.forEach((item) => {
         const divItem = document.createElement("div")
@@ -97,9 +106,10 @@ function updateProjects() {
         pPriority.textContent = `Priority: ${item.priority}`
         divItem.appendChild(pPriority)
 
-        div.appendChild(divItem)
+        divItems.appendChild(divItem)
       })
 
+      div.appendChild(divItems)
       projectsSection.appendChild(div)
     })
   } else {

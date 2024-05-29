@@ -1,0 +1,17 @@
+.project {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 60px 1fr;
+
+  .items {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: 1fr;
+
+    .item {
+      border: 1px solid #ccc;
+      margin: 5px;
+      padding: 5px;
+    }
+  }
+}
