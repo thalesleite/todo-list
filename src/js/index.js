@@ -80,7 +80,7 @@ function updateProjects() {
   projectsSection.innerHTML = ""
 
   if (projects.length > 0) {
-    projects.forEach((project, idProject) => {
+    projects.forEach((project) => {
       const div = document.createElement("div")
       div.classList.add("project")
 
