@@ -8,8 +8,8 @@ export default function createProject(name) {
     addItem(item) {
       this.items.push(item)
     },
-    removeItem(item) {
-      console.log("item: ", item)
+    removeItem(index) {
+      this.items.splice(index, 1)
     },
   }
 }

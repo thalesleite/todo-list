@@ -12,6 +12,34 @@
       border: 1px solid #ccc;
       margin: 5px;
       padding: 5px;
+
+      p {
+        font-weight: bold;
+      }
+
+      .btn-delete {
+        cursor: pointer;
+        background-color: rgb(240, 132, 132);
+        border: 1px solid red;
+        color: white;
+        margin: 5px;
+      }
+
+      .btn-edit {
+        cursor: pointer;
+        background-color: rgb(132, 166, 240);
+        border: 1px solid blue;
+        color: white;
+        margin: 5px;
+      }
+
+      .btn-save {
+        cursor: pointer;
+        background-color: rgb(80, 175, 91);
+        border: 1px solid green;
+        color: white;
+        margin: 5px;
+      }
     }
   }
 }
